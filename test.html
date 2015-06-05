@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>test</title>
+</head>
+<body>
+	<script type="text/javascript">
+	var singleton = function( fn ){
+	    var result;
+	    return function(){
+	        return result || ( result = fn .apply( this, arguments ) );
+	    }
+	}
+	var _storage=singleton(function(){
+		// var localStorage =window.localStorage || (window.UserDataStorage && new UserDataStorage());
+		 var ls = {
+			setLocalStorage : function(k,v){
+				localStorage.setItem(k,v);
+			},
+			getLocalStorage : function(k){
+				return localStorage.getItem(k);
+			},
+			removeLocalStorage:function(k){
+				localStorage.removeItem(k);
+			},
+			clearLocalStorage : function(){
+				localStorage.clear();
+			},
+			setSessionStorage : function(k,v){
+				sessionStorage.setItem(k,v);
+			},
+			getSessionStorage : function(k){
+				return sessionStorage.getItem(k);
+			},
+			removeSessionStorage:function(k){
+				sessionStorage.removeItem(k);
+			},
+			clearSessionStorage : function(){
+				sessionStorage.clear();
+			}
+		};
+		return ls;
+	})();
+
+	var _cookie=singleton(function(){
+		var ck={
+			addCookie:function(name,value,expiresHours){
+
+				var c = Array.prototype.shift.call(arguments )
+				var cookieString=name+"="+escape(value); 
+				//判断是否设置过期时间 
+				if(expiresHours>0){ 
+					var date=new Date(); 
+					date.setTime(date.getTime+expiresHours*3600*1000); 
+					cookieString=cookieString+"; expires="+date.toGMTString(); 
+				} 
+				document.cookie=cookieString;
+				
+				document.cookie="aa=121;";
+
+				document.cookie="expires=131;";
+			},
+			getCookie : function(name){
+				var strCookie=document.cookie; 
+				var arrCookie=strCookie.split("; "); 
+				for(var i=0;i<arrCookie.length;i++){ 
+					var arr=arrCookie[i].split("="); 
+					if(arr[0]==name){
+						return arr[1];
+					}; 
+				} 
+				return ""; 
+
+			},
+			deleteCookie : function(name){
+				var date=new Date(); 
+				date.setTime(date.getTime()-10000); 
+				document.cookie=name+"=v; expires="+date.toGMTString();
+			}
+		};
+		return ck;
+	})();
+	//需要存储的数据
+	var storageJson={
+		"name":"bamzc",
+		"age":"23",
+		"sex":"男"
+	};
+	// _storage.setLocalStorage("name",storageJson.name);
+	// document.write("我给localStorage赋值："+_storage.getLocalStorage("name"));
+    _cookie.addCookie("bamzc","111",1);
+    document.write("<br><br>我添加了一个cookie："+_cookie.getCookie("expires"));
+	</script>
+</body>
+</html>
