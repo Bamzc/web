@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" charset="utf-8">
+<title>构造函数应用</title>
+<meta name="author" content="rainna" />
+<meta name="keywords" content="rainna's js lib" />
+<meta name="description" content="" />
+
+</head>
+
+<body>
+<script type="text/javascript">
+/*
+ *
+ *handleEvent应用以及构造函数的认识,实现封装类
+ *
+ *在IE9+，chrome，FF均测试成功。
+ *
+ *1.可以把所有事件都写到一个obj当中，原生的非原生的都可以作为handleEvent里的一条处理逻辑
+ *
+ *2.事件无需remove就可以动态改变；之前的事件派发中心模式，事件中心也可以变的更简单。 
+ *
+ */
+function si(name){
+    this.name="111";
+}
+si.prototype={
+    s2:null,
+    events:{
+        s1:null,
+        handleEvent:function(){
+            alert(this.s1);
+        },
+        add:function(){
+            var s=this.s2;
+            // alert(this.s1)
+        }
+    },
+    s:function(){
+        var s3=this.s2;
+        // alert(this.s2);
+    },
+    init:function(){
+        this.s2=this.name;
+        this.s();
+        this.events.s1=this.s2;
+        this.events.add();
+        document.addEventListener("click",this.events,false);
+    }
+};
+var w=new si();
+w.init();
+</script>
+</body>
+</html>
