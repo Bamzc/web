@@ -1,57 +1,82 @@
 <!doctype html>
-<html></html>
+<html>
 <head>
 	<meta http-equiv="Content-Type" charset="utf-8">
 	<meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
-	<title>手机端滚动滑动测试</title>
+	<title>乐视网英雄联盟皮肤大放送！</title>
+
 	<style>
 	*{margin:0;padding:0;}
 	li{list-style:none;}
 
-	.m-slider{width:600px;margin:50px 20px;overflow:hidden;}
+	.m-slider{width:600px;margin:50px 20px;}
+	.m-contianer{height: 508px;overflow:hidden;}
 	.m-slider .cnt{position:relative;left:0;width:3000px;}
 	.m-slider .cnt li{float:left;width:600px;}
 	.m-slider .cnt img{display:block;width:100%;height:450px;}
 	.m-slider .cnt p{margin:20px 0;}
-	.m-slider .icons{text-align:center;color:#000;}
-	.m-slider .icons span{margin:0 5px;}
-	.m-slider .icons .curr{color:red;}
+
+	.m-slider .cnt2{position:relative;left:0;height:3000px;}
+	.m-slider .cnt2 li{width:600px;}
+	.m-slider .cnt2 img{display:block;width:100%;height:450px;}
+	.m-slider .cnt2 p{margin:20px 0;}
+
+	.icons{text-align:center;color:#000;margin: o:auto;}
+	.icons span{margin:0 5px;}
+	.icons .curr{color:red;}
 	.f-anim{-webkit-transition:left .2s linear;}
+	.f-anim2{-webkit-transition:top .2s linear;}
 	</style>
 </head>
 <body>
+
+
+<!-- <div class="a_box">
+	<div class="a_img">></div>
+</div> -->
+
 <div class="m-slider">
-    <ul class="cnt" id="slider">
-        <li>
-            <img src="img/1.jpg">
-            <p>20140813镜面的世界，终究只是倒影。看得到你的身影，却触摸不到你的未来</p>
-        </li>
-        <li>
-            <img src="img/2.jpg">
-            <p>20140812锡林浩特前往东乌旗S101必经之处，一条极美的铁路。铁路下面是个小型的盐沼，淡淡的有了一丝天空之境的感觉。可惜在此玩了一个小时也没有看见一列火车经过，只好继续赶往东乌旗。</p>
-        </li>
-        <li>
-            <img src="img/3.jpg">
-            <p>20140811水的颜色为什么那么蓝，我也纳闷，反正自然饱和度和对比度拉完就是这个颜色的</p>
-        </li>
-        <li>
-            <img src="img/4.jpg">
-            <p>海洋星球3重庆天气热得我想卧轨自杀</p>
-        </li>
-        <li>
-            <img src="img/5.jpg">
-            <p>以上这些作品分别来自两位设计师作为观者，您能否通过设计风格进行区分</p>
-        </li>
-    </ul>
-    <div class="icons" id="icons">
-        <span class="curr">1</span>
-        <span>2</span>
-        <span>3</span>
-        <span>4</span>
-        <span>5</span>
+	<div class="m-contianer">
+	    <ul class="cnt" id="slider">
+	        <li>
+	            <img src="img/11.jpg">
+	            <p>是时候表演真正的技术啦,像我这么帅的在别的游戏一般都是主角哦</p>
+	        </li>
+	        <li>
+	            <img src="img/22.jpg">
+	            <p>如果“黑玫瑰”叫别的名字，闻起来还会这么香么？</p>
+	        </li>
+	        <li>
+	            <img src="img/33.jpg">
+	            <p>刚才我们路过的不就是这座炮塔么？你真的不想问问路么？确定一定以及肯定么？</p>
+	        </li>
+	        <li>
+	            <img src="img/44.jpg">
+	            <p>只有你可以听到我的话，召唤师。今天我们演奏哪首曲子？</p>
+	        </li>
+	        <li>
+	            <img src="img/55.jpg">
+	            <p>一点寒芒先到,随后枪出如龙！</p>
+	        </li>
+	    </ul>
     </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;英雄联盟:皮肤大发送!!!详情请关注@请叫我白神GG新浪微博
 </div>
 
+<div class="icons" id="icons">
+    <span class="curr">1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>4</span>
+    <span>5</span>
+</div>
+
+<!-- <div>
+	<h2 style="text-align:center;margin-top:20px">请叫我白神GG</h2>
+</div>
+<div>
+	<h3 style="text-align:center;margin-top:20px">email:bamzc@qq.com</h3>
+</div> -->
 
 <script type="text/javascript">
 /*
@@ -97,14 +122,15 @@
 _slider.prototype={
 	//判断设备是否支持touch事件
 	touch : ('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
-	slider : null,
-	icons : null, 
-
 	events : {
 		index :  0, //显示元素的索引
-		slider : this.slider, //this作为silder对象
-        icons : this.icons,
-        icon : this.icons.getElementsByTagName("span"),
+		isScrolling : 0,
+		startPos : [],
+		endPos : [], 
+		offset : 10,
+		slider : null, //this作为silder对象
+        icons : null,
+        icon : document.getElementsByTagName("span"),
         handleEvent : function(event){
             var self = this;     //this指events对象
             if(event.type == 'touchstart'){
@@ -120,14 +146,14 @@ _slider.prototype={
 			// event.preventDefault();
 			var touch = event.targetTouches[0]; //touches数组对象获得屏幕上所有的touch，取第一个touch
 			//获取第一个touch的坐标值
-			startPos = {
+			this.startPos = {
 				x : touch.pageX,
 				y : touch.pageY,
 				time : +new Date()
 			};
 			//这个参数判断是垂直滚动，还是水平滚动。
 			//isScrolling为1时，表示纵向滑动，0为横向滑动
-			isScrolling = 0; 
+			// this.isScrolling = 0; 
             this.slider.addEventListener('touchmove',this,false);
             this.slider.addEventListener('touchend',this,false);
 		},
@@ -136,37 +162,57 @@ _slider.prototype={
 			// event.preventDefault();
 			//当屏幕上面有多个touch或者页面被缩放时，不执行move操作
 			if(event.targetTouches.length > 1 || event.scale && event.scale!==1){
-				alert(0);
 				return;
 			}
 			var touch = event.targetTouches[0];
-			endPos = {
-                x : touch.pageX - startPos.x,
-                y : touch.pageY - startPos.y
+			this.endPos = {
+                x : touch.pageX - this.startPos.x,
+                y : touch.pageY - this.startPos.y
 			};
-			isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0;
-			if(isScrolling === 0){
+			//动态判断是水平滑动，还是垂直滑动，暂时不用
+			// this.isScrolling = Math.abs(this.endPos.x) < Math.abs(this.endPos.y) ? 1:0;
+			if(this.isScrolling === 0){
 	            event.preventDefault();  //阻止触摸事件的默认行为，即阻止滚屏
 	            this.slider.className = 'cnt';
-	            this.slider.style.left = -this.index*600 + endPos.x + 'px';
+	            this.slider.style.left = -this.index*600 + this.endPos.x + 'px';
+	        }
+	        if(this.isScrolling === 1){
+	            event.preventDefault();  //阻止触摸事件的默认行为，即阻止滚屏
+	            this.slider.className = 'cnt2';
+	            this.slider.style.top = -this.index*508 + this.endPos.y + 'px';
 	        }
 		},
 		_end : function(){
 			// event.preventDefault();
-			var duration = +new Date - startPos.time;    //滑动的持续时间
-            if(isScrolling === 0){    //当为水平滚动时
+			var duration = +new Date - this.startPos.time;    //滑动的持续时间
+            if(this.isScrolling === 0){    //当为水平滚动时
                 this.icon[this.index].className = '';
-                if(Number(duration) > 10){     
+                if(Number(duration) > this.offset){     
                     //判断是左移还是右移，当偏移量大于10时执行
-                    if(endPos.x > 10){
+                    if(this.endPos.x > this.offset){
                         if(this.index !== 0) this.index -= 1;
-                    }else if(endPos.x < -10){
+                    }else if(this.endPos.x < -this.offset){
                         if(this.index !== this.icon.length-1) this.index += 1;
                     }
                 }
                 this.icon[this.index].className = 'curr';
                	this.slider.className = 'cnt f-anim';
                	this.slider.style.left = -this.index*600 + 'px';
+            }
+            //滑动的持续时间
+            if(this.isScrolling === 1){    //当为垂直滚动时
+                this.icon[this.index].className = '';
+                if(Number(duration) > this.offset){     
+                    //判断是上移还是下移，当偏移量大于10时执行
+                    if(this.endPos.y > this.offset){
+                        if(this.index !== 0) this.index -= 1;
+                    }else if(this.endPos.y < -this.offset){
+                        if(this.index !== this.icon.length-1) this.index += 1;
+                    }
+                }
+                this.icon[this.index].className = 'curr';
+               	this.slider.className = 'cnt2 f-anim2';
+               	this.slider.style.top = -this.index*508 + 'px';
             }
             //解绑事件
             this.slider.removeEventListener('touchmove',this,false);
@@ -176,11 +222,10 @@ _slider.prototype={
 	init : function(){
 		var self = this;     //this指slider对象
 		 if(!!self.touch) {
-		 	self.slider = document.getElementById(self.el);
+		 	self.events.slider = document.getElementById(self.el);
 		 	// alert(self.slider_)
-		 	self.icons = document.getElementById(self.controlEle);
-		 	self.icon = self.controlSpan;
-    		self.slider.addEventListener('touchstart',self.events,false);
+		 	self.events.icons = document.getElementById(self.controlEle);
+    		self.events.slider.addEventListener('touchstart',self.events,false);
 		 }   
 	}
 }; 
