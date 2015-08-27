@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+	<title>jq Package</title>
+	<meta  charset="utf-8"/>
+	<script type="text/javascript" src="jquery-2.1.4.js"></script>
+</head>
+<body>
+	<div id="btn">111</div>
+	<script type="text/javascript">
+		//在jQuery匿名函数中,采用jQuery.extend();方法创建jQuery插件
+		//在jQuery匿名函数中, 采用对象.属性 = 函数的方式创建jQuery插件
+		(function ($,document) {
+			// document = $(document);
+		    jQuery.extend({
+		        jia: function (a, b) {
+		            return a + b;
+		        },
+		        jian: function (a, b) {
+		            return a < b ? b - a : a - b;
+		        }
+		    });
+		    $.sub = {
+		        sheng: function (a, b) {
+		            return a * b;
+		        },
+		        chu: function (a, b) {
+		            return a < b ? b / a : a / b;
+		        }
+		    }
+		    alert($("#id").html())
+		    jQuery.fn.Insert = function (a) {
+		    	var s=document.getElementById("btn").innerHTML;
+
+		    	// var s=$("#btn").html();
+		        alert(s);
+		    }
+		})(jQuery,document)
+	</script>
+    <script type="text/javascript" src="~/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="~/JQTest.js"></script>
+    <script type="text/javascript">
+        // document.getElementById("btn").onclick=btn_click;
+        // $.fn.Insert("啦啦");
+        // function btn_click() {
+        //    // var a = prompt("请输入一个数字：");
+        //    // var b = prompt("请输入一个数字：");
+        //    // var A = prompt("请输入一个数字：");
+        //    // var c = jQuery.jia(a, b);
+        //    // var d = jQuery.jian(a, b);
+        //    // var e = $.sub.sheng(a, b);
+        //    // var f = $.sub.chu(a, b);
+        //    // alert("相加：" + c + "，相减：" + d + "，相乘：" + e + ",相除：" + f );
+        //    $.fn.Insert("啦啦");
+
+
+        // }
+        var   mydate=   new   Date('2012/5/10 10:10:21');
+        alert(mydate)
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" charset="utf-8">
+	<title>js自定义事件测试</title>
+</head>
+<body>
+<div id="custo">111</div>
+<div id="custo2">222</div>
+<script type="text/javascript">
+ function Class1(){};
+ Class1.prototype ={ 
+    events : [],
+    //间接调用 
+    register : function(e){ 
+        if(this.events){ 
+            for(var i=0; i<this.events.length; i++){
+                this.events[i]['f']();
+            } 
+        } 
+        
+    }, 
+    //添加事件处理函数 
+    attchOnEvt : function(obj,ev,func){
+        func=this.makeFunc(obj,func);  
+        this.events.push({o:obj,e:ev,f:func});
+    }, 
+    //删除事件处理函数 
+    detachOnEvt : function(obj,ev,func){
+    	if(this.events){
+	    	for(var i=0;i<this.events.length;i++){
+	    		if(this.events[i]['o'] == obj && this.events[i]['e'] == ev){
+					this.events.pop(this.events[i]); 
+	    		}
+	    	}
+	        
+    	}
+    },  
+    //包装下事件处理函数,使其可以接收参数 
+	makeFunc:function(obj,func){
+		return function(){ 
+			func.call(obj);
+		} 
+
+	}      
+ } 
+ 
+
+ 
+ //处理函数-路人甲 
+ function _eventFunc(){
+ 	alert(this.innerHTML)
+ } 
+ //处理函数-路人乙
+ function _eventFunc2(sName){ 
+     console.log("i'm ok2"); 
+ }
+ 
+//test 
+ var obj = new Class1(); 
+ obj.attchOnEvt(document.getElementById('custo'),"cus",_eventFunc);
+ obj.attchOnEvt(document.getElementById('custo'),"cus",_eventFunc);
+ obj.attchOnEvt(document.getElementById('custo'),"cus",_eventFunc2);
+ obj.attchOnEvt(document.getElementById('custo2'),"cus",_eventFunc);
+
+ obj.detachOnEvt(document.getElementById('custo'),"cus");
+  // alert(obj.events.length)
+ obj.register();
+ // obj.detachOnEvt(MakeFunc(null, "_eventFunc", "kobe")); 
+</script>
+</body>
+</html>

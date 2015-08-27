@@ -1,0 +1,18 @@
+body{font-family:Arial,"ÀŒÃÂ";font-size:12px;overflow-x:hidden;color:#000;}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote{margin:0px;padding:0px;}
+ul,li,ol,dl,dt,dd{list-style:none;list-style-type:none}
+img{border:0px;}
+em{font-style:normal;}
+a{color:#000;text-decoration:none;}
+a:hover{}
+input{vertical-align:middle;}
+.atcenter{margin:0 auto;}
+.clear{clear:both;height:1px;line-height:1px;overflow:hidden;overflow-y:hidden;overflow-x:hidden}
+
+/*∑÷“≥*/
+.mypage{white-space:nowrap;text-align:center} 
+.mypage a{border-radius:10px;padding-left:5px;padding-right:5px;line-height:22px;font-size:12px;text-align:center;display:inline-block;border:1px solid #dce9f2;background:#fff;margin-right:2px;margin-left:2px;text-decoration:none;vertical-align:middle} 
+.mypage strong{border-radius:10px;padding-left:5px;padding-right:5px;line-height:22px;font-size:12px;text-align:center;display:inline-block;border:1px solid #dce9f2;background:#f0f7fe;margin-right:2px;margin-left:2px;text-decoration:none;vertical-align:middle} 
+.mypage a:hover{background:#ebebeb} 
+.mypage span{border-radius:10px;padding-left:5px;color:#ddd;padding-right:5px;line-height:22px;font-size:12px;text-align:center;display:inline-block;border:1px solid #ddd;background:#fff;margin-right:2px;margin-left:2px;text-decoration:none;vertical-align:middle} 
+.mypage em{border-radius:10px;padding-left:5px;color:#ddd;padding-right:5px;line-height:22px;font-size:12px;text-align:center;display:inline-block;border:1px solid #ddd;background:#fff;margin-right:2px;margin-left:2px;text-decoration:none;vertical-align:middle} 

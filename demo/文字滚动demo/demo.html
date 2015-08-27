@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset=UTF-8 />
+<title>测试</title>
+<style>
+    #demo1{
+        overflow: hidden;
+        /*height:26px;*/
+        float: left;
+        /*width: 800%;*/
+        height: 800%;
+        position:relative;
+    }
+    #demo{
+        background: #FFF;
+        overflow:hidden;
+        border: 1px dashed #CCC;
+        width: 450px;
+        height:26px;
+    }
+    .huojiang_list{
+        float: left;
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+    }
+
+    .huojiang_list li{ 
+        width:150px;
+        /*height:26px;*/
+        float:left;
+        padding: 0px;
+        margin: 0px;
+        list-style-image: none;
+        list-style-type: none;
+    }
+</style>
+<script src="jquery-2.1.4.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <div id="demo1"> 
+            <ul class="huojiang_list">
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var obj = {
+            '1' : '***********',
+            '2' : '185****2361',
+            '3' : '185****2362',
+            '4' : '185****2363',
+            '5' : '185****2364',
+            '6' : '185****2365',
+            '7' : '185****2366',
+            '8' : '185****2367',
+            '9' : '185****2368'
+        }
+        $.fn.newFunc = function(options){
+            $options = $.extend({},options);
+            var content = "";
+            for(var val in $options){
+                content += '<li>'+$options[val]+'</li>';
+            }
+            return $(this).append(content);
+        };
+        $('.huojiang_list').newFunc(obj);
+        var sliderMsg = {
+            index : 0,
+            interval : 2000,
+            cslider : 1,
+            init : function(){
+                this.initEl();
+                if(this.cslider == 0){
+                    this.setIval(this.toLeftmove,this.interval,this);
+                    this.tab.width('800%');
+                    this.tab.height('auto');
+                }else{
+                    this.setIval(this.toTopmove,this.interval,this);
+                    this.tab.width('auto');
+                    this.tab.height('800%');
+                }
+            },
+            initEl : function(){
+                this.tab = $("#demo1");
+                this.ulHeight = this.tab.children("ul").children("li").get(0).offsetHeight; //获取行高
+                this.liWidth = this.tab.children("ul").children("li").width();
+                this.liLen = this.tab.children("ul").children("li").length;
+                this.tab.append(this.tab.children().first().clone(true));
+            },
+            toLeftmove : function(el){
+                var that = el;
+                that.index ++;
+                if(that.index >= that.liLen){
+                    that.index = 0;
+                    that.tab.css("left",0);;
+                    that.index ++;
+                }
+                that.tab.animate({
+                    "left" : (-that.index)*that.liWidth+"px"
+                },300);
+            },
+            toTopmove : function(el){
+                var that = el;
+                that.index ++;
+                // alert(that.liLen)
+                if(that.index >= Math.ceil(that.liLen/3)*2){
+                    that.index = 0;
+                    that.tab.css("top",0);
+                }
+                that.tab.animate({
+                    "top" : (-that.index)*that.ulHeight+"px"
+                },300);
+            },
+            setIval : function(cb,interval,el){
+                setInterval(function(){
+                    cb(el);
+                },interval)
+            }
+        }
+        sliderMsg.init();
+    </script>
+</body>
+</html>

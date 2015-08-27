@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>鼠标放到图片上的动画效果</title>
+	<style>
+
+		*{
+			/*margin:0px;
+			padding:0px;
+			-webkit-box-sizing: border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;*/
+		}
+		/**解决图片地下多出几个像素的问题*/
+		img {
+			vertical-align: middle;
+		}
+		body {
+		  	font-family: Arial, Helvetica, sans-serif;
+		  	font-size: 14px;
+		  	line-height: 20px;
+		  	color: #535b60;
+		}
+
+		ul {
+		  	list-style-type: none;
+			list-style: none;
+		}
+		a{
+			text-decoration: none;
+		}
+		.btn {
+			padding: 6px 12px;
+			border: 1px solid #4f8db3;
+			-webkit-border-radius: 2px;
+			-webkit-background-clip: padding-box;
+			-moz-border-radius: 2px;
+			-moz-background-clip: padding;
+			border-radius: 2px;
+			background-clip: padding-box;
+			color: #FFFFFF;
+			cursor: pointer;
+			display: inline-block;
+			text-transform: none;
+			-webkit-transition: all .25s ease;
+			-moz-transition: all .25s ease;
+			-o-transition: all .25s ease;
+			-ms-transition: all .25s ease;
+			transition: all .25s ease;
+			background: none repeat scroll 0 0 #4f8db3;
+			text-shadow: none;
+			box-shadow: none;
+			color: #FFF;
+			white-space: nowrap;
+		}
+		.btn:hover {
+			background: none repeat scroll 0 0 #3b3c41;
+			color: #FFF;
+			text-decoration: none;
+			border: 1px solid #3b3c41;
+		}
+		.pic-info-animation{
+			width: 372px;
+			position: relative;
+			background:#fff;
+			margin-bottom:20px;
+			border: 8px solid #fff;
+			-wekit-border-radius:5px;
+			-moz-border-radius:5px;
+			border-radius:5px;
+			-wekit-background-clip:padding-box;
+			-moz-background-clip:padding;
+			background-clip: padding-box;
+			-wekit-box-shadow: inset 0 1px #fff,0 0 8px #c8cfe6;
+			-moz-box-shadow: inset 0 1px #fff,0 0 8px #c8cfe6;
+			box-shadow: inset 0 1px #fff,0 0 8px #c8cfe6;
+ 			color: inset 0 1px #fff,0 0 8px #c8cfe6;
+			-webkit-transition: all .5s ease;
+			-moz-transition: all .5s ease;
+			-o-transition: all .5s ease;
+			-ms-transition: all .5s ease;
+			transition: all .5s ease;
+		}
+		.pic-info-animation .pic-info-imgae{
+			overflow: hidden;
+			position: relative;
+  			text-align: center;
+		}
+
+		.pic-info-animation .pic-info-imgae img{
+			max-width: 100%;
+			-webkit-transition: all .25s ease;
+			-moz-transition: all .25s ease;
+			-o-transition: all .25s ease;
+			-ms-transition: all .25s ease;
+			transition: all .25s ease;
+		}
+		.pic-info-animation:hover{
+			border: 8px solid #4f8db3;
+		}
+		.pic-info-animation:hover .pic-info-imgae img{
+			position: relative;
+			-wekit-transform: scale(1.1) rotate(2deg);
+			-moz-transform: scale(1.1) rotate(2deg);
+			-o-transform: scale(1.1) rotate(2deg);
+			-ms-transform: scale(1.1) rotate(2deg);
+			transform: scale(1.1) rotate(2deg);
+		}
+		.pic-info-animation ul {
+			list-style-type: none;
+			margin-left: 0;
+			margin-top: 20px;
+			text-align: center;
+			padding: 0;
+		}
+		.pic-info-animation ul li {
+			line-height: 28px;
+		}
+		.pic-info-animation .pic-info-fade .pic-info-title {
+		    font-size: 1.3em;
+		    text-transform: uppercase;
+		}
+		.pic-info-animation .pic-info-fade .read-more{
+			text-align: center;
+			padding-top: 10px;
+		}
+		.pic-info-animation .pic-info-fade{
+			-wekit-opacity:0;
+			-moz-opacity:0;
+			opacity: 0;
+			top: 0;
+			position: absolute;
+			background: #000;
+			background: rgba(0,0,0,0.7);
+			width: 100%;
+			height: 100%;
+			color: #fff;
+			text-shadow:2px 2px 4px #000;
+			filter: dropshadow(color=#000000, offx=2, offy=2);
+			-webkit-transition: opacity .25s linear;
+			-moz-transition: opacity .25s linear;
+			-o-transition: opacity .25s linear;
+			-ms-transition: opacity .25s linear;
+			transition: opacity .25s linear;
+		}
+		.pic-info-animation:hover .pic-info-fade {
+			display: block;
+			-webkit-opacity: 0.8;
+			-moz-opacity: 0.8;
+			opacity: 0.8;
+		}
+		.pic-info-animation .pic-info-fade ul{
+			margin: 10% 20px 0 20px;
+			padding: 0;
+		}
+		.pic-info-animation .pic-info-fade ul li{
+			text-align: center;
+		}
+		.pic-info-animation .pic-info-fade .read-more .btn:hover{
+			background: #4f8db3;
+		}
+
+		.pic-info-animation .pic-info-fade ul li:first-child {
+			border-bottom: 1px solid #CCC;
+		}
+		.picAanimation-wrapper{
+			float: left;
+		}
+	</style>
+</head>
+<body>
+	<div class="section">
+		<div class="container">
+			<div class="row">
+				<div class="picAanimation-wrapper">
+					<div class="pic-info-animation">
+						<div class="pic-info-imgae">
+							<a href="#"><img src="img/33.jpg" alt=""></a>
+						</div>
+					</div>
+				</div>
+				<div class="picAanimation-wrapper">
+					<div class="pic-info-animation">
+						<div class="pic-info-imgae">
+							<a href="#"><img src="img/11.jpg" alt=""></a>
+						</div>
+						<div class="pic-info-fade">
+							<ul>
+								<li class="pic-info-title">伊泽瑞尔</li>
+								<li>战斗指数：★★★★</li>
+								<li>个人能力：优秀</li>
+								<li>定位：远程</li>
+								<li class="read-more"><a href="#" class="btn">了解更多</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html

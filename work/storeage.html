@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>测试web本地存储</title>
+</head>
+<body>
+<script type="text/javascript">
+//IE9 localStorage sessionStorage 不支持本地文件 必须在服务器上运行
+
+//localStorage
+localStorage.name="Bamzc";
+if (localStorage.name) {
+	document.write(localStorage.name);
+};
+if(localStorage.pagecount){
+	localStorage.pagecount=Number(localStorage.pagecount) +1;
+}else{
+	localStorage.pagecount=1;
+}
+
+document.write("<br><br> localStorage visit "+localStorage.pagecount+" time(s) ");
+
+//sessionStorage
+sessionStorage.name="Bam";
+if(sessionStorage.name){
+	document.write("<br><br>"+sessionStorage.name);
+}
+if(sessionStorage.pagecount){
+	sessionStorage.pagecount=Number(sessionStorage.pagecount)+1;
+}else{
+	sessionStorage.pagecount=1;
+}
+document.write("<br><br> sessionStorage visit "+sessionStorage.pagecount+" time(s)");
+
+//cookie
+document.cookie="userId=828";
+document.cookie="userName=hulk";
+
+
+function setCookie(name,value){
+	var days=3;
+	var exp=new Date();
+	exp.setTime(exp.getTime()+days*24*60*60*1000);
+	document.cookie=name+"="+escape(value);
+	document.cookie="expires="+exp.toGMTString();
+}
+setCookie("Bamzc","Hello");
+document.write("<br><br> document cookie:<br>"+document.cookie);
+</script>
+</body>
+</html>

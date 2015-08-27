@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title> </title>
+<meta charset="utf-8">
+<style type="text/css">
+    .btn {
+        padding: 6px 12px;
+        border: 1px solid #4f8db3;
+        -webkit-border-radius: 2px;
+        -webkit-background-clip: padding-box;
+        -moz-border-radius: 2px;
+        -moz-background-clip: padding;
+        border-radius: 2px;
+        background-clip: padding-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        text-transform: none;
+        text-decoration: none;
+        -webkit-transition: all .25s ease;
+        -moz-transition: all .25s ease;
+        -o-transition: all .25s ease;
+        -ms-transition: all .25s ease;
+        transition: all .25s ease;
+        background: none repeat scroll 0 0 #4f8db3;
+        text-shadow: none;
+        box-shadow: none;
+        color: #FFF;
+        white-space: nowrap;
+    }
+    .end_time_wrap{
+	    width: 300px;
+	    overflow: hidden;
+	    height: 37px;
+	    line-height: 37px;margin: 0 auto;color: #000000;
+	}
+	.end_time_wrap span{
+	    width: 44px;
+	    height: 37px;
+	    letter-spacing:10px;
+	    display: inline-block;
+	    background: url("http://i0.letvimg.com/lc03_pay/201506/29/18/23/1822/endtimebg.png") no-repeat center top;
+	    font-size: 24px;
+	    color: #dadfbd;
+	    padding-left: 6px;
+	}
+	.div1{
+		/*margin: 0 auto;*/
+		width: 100%;
+		margin-left: 50%;
+		margin-top: 10px;
+	}
+	.disabled{
+		background: #999;
+		border: 1px solid #999;
+		cursor:default;
+		pointer-events:none;
+	}
+</style>
+
+</head>
+<body >
+
+<div class="end_time_wrap">
+    <span class="day">00</span>
+    天
+    <span class="hour">00</span>
+    时
+    <span class="min">00</span>
+    分
+    <span class="second">00</span>
+    秒
+</div>
+<div class="div1">
+	<a href="javascript:;" class="btn">按钮</a>
+</div>
+<script src="jquery-2.1.4.js"></script>
+<script type="text/javascript">
+	var Countdown = {
+		config : {
+			id : null,
+			btn : null,
+			startTime : null,
+			endTime : null,
+		},
+		init : function(obj){
+			typeof obj == "object" ? ($.extend(this.config,obj),this.initEl()): false;
+		},
+		initEl : function(){
+			if(this.config.id){
+				this.pareDiv = $("."+this.config.id);
+				this.day = this.pareDiv.find(".day");
+				this.hour = this.pareDiv.find(".hour");
+				this.min = this.pareDiv.find(".min");
+				this.second = this.pareDiv.find(".second");	
+			}else{
+				// throw new Error( "id is undefined");
+			}
+			if(this.config.btn){
+				this.btn = $("."+this.config.btn);
+			}else{
+				// throw new Error( "btn is undefined");
+			}
+			this.config.id && this.setTimer();
+		},
+		setTimer : function(){
+			var that = this;
+			this.getDate(function(time){
+				var n1 = new Date(that.config.startTime).getTime();
+				var n2 = new Date(that.config.endTime).getTime();
+				if(that.btn) {
+					n2 > time*1000 && n1 < time*1000 ? that.btn.removeClass("disabled") : that.btn.addClass("disabled")
+				};
+		        var t = n2 - time*1000;
+		        if(t <= 0){
+		        	clearTimeout();
+		            return;
+		        }else{
+
+		        }
+		        var d=Math.floor(t/1000/60/60/24);
+		        var h=Math.floor(t/1000/60/60%24);
+		        var m=Math.floor(t/1000/60%60);
+		        var s=Math.floor(t/1000%60);
+		        if(d<10){
+		            d='0'+d;
+		        }
+		        if(h<10){
+		            h='0'+h;
+		        }
+		        if(m<10){
+		            m='0'+m;
+		        }
+		        if(s<10){
+		            s='0'+s;
+		        }
+		        that.day.html(d);
+		        that.hour.html(h);
+		        that.min.html(m);
+		        that.second.html(s);
+		        setTimeout(function(){
+		            that.setTimer();
+		        },1000);
+			});
+		},
+        getDate : function(cb){
+        	var time = new Date().getTime();
+        	cb(time/1000);
+        }
+	};
+	Countdown.init({
+		id : "end_time_wrap",
+		btn : "btn",
+		startTime : "2015/8/13 12:00:00",
+		endTime : "2015/8/17 12:00:00",
+		url:""
+	});
+
+	$(function(){
+		var obj = {
+			a : '1',
+			b : '2',
+			init : function(){
+				console.log(this.a+this.b);
+				return this.a+this.b
+			}
+		};
+		document.obj = function(){
+			return obj.init();
+		}
+	});
+	(function(){
+		var obj = {
+			a : '1',
+			b : '2',
+			init : function(){
+				console.log(this.a+this.b);
+				return this.a+this.b
+			}
+		};
+		window.obj = function(){
+			// console.log()
+			return obj.init();
+		}
+	}());
+	// $(function(){
+
+		obj();
+	function s (a,b){
+		this.a = a;
+		this.b = b;
+	}
+	s.prototype = {
+		c : function(d){
+			var d = 1;
+		},
+		d : function(){
+			this.c.call();
+		},
+		init : function(){
+			var s = 2;
+			this.c.call(this.init,d);
+			console.log(this.init);
+			alert(this.a+this.b+d);
+		}
+	};
+	new s(1,2).init();
+	// });
+	// var i = 0;
+	// var ss = function(){
+	// 	if(i > 2){
+	// 		clearTimeout();
+	// 	}else{
+	// 		alert(i)
+	//     	setTimeout(ss,1000);
+	// 	}
+	// 	i++;
+	// }
+	// ss();
+
+	// var j = 0;
+	// var ss2 = function(){
+	// 	if(j > 4){
+	// 		clearTimeout();
+	// 	}else{
+	// 		console.log(j)
+	//     	setTimeout(ss2,1000);
+	// 	}
+	// 	++;
+	// }
+	// ss2();
+</script>
+</body>
+</html>

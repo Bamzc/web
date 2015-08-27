@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" charset="utf-8">
+	<meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+	<title>bamzc</title>
+    </style>
+    <style type="text/css">
+        body{
+            margin: 0px;
+            padding: 0px;
+        }
+        .click_btn{
+            background: rgba(0, 0, 0, 0) url("./img/left.png") no-repeat scroll center;
+            cursor: pointer;
+            float: left;
+            height: 100%;
+            width: 50px;
+        }
+        .F_prev {
+            background: rgba(0, 0, 0, 0) url("./img/left.png") no-repeat scroll center ;
+            margin: 0 20px;
+        }
+        .F_next {
+            background: rgba(0, 0, 0, 0) url("./img/right.png") no-repeat scroll center ;
+            margin: 0 20px;
+        }
+        .content{width:100%;margin:0px auto;height:300px;float: left;}
+        .box{width:900px;overflow:hidden;height:300px; margin: 0 auto;float: left;}
+        #scroll_box{list-style:none;height:300px;padding: 0px}
+        #scroll_box li{width:300px;float:left;height:300px;}
+        #scroll_box li img{width:300px;height:300px;}
+    </style>
+</head>
+<body>
+	<div class="content">
+        <div class="click_btn F_prev"></div>
+        <div class="box">
+            <ul id="scroll_box">
+                <li><img src="img/11.jpg" alt=""/>1</li>
+                <li><img src="img/22.jpg" alt=""/>2</li>
+                <li><img src="img/33.jpg" alt=""/>3</li>
+                <li><img src="img/44.jpg" alt=""/>4</li>
+                <li><img src="img/55.jpg" alt=""/>5</li>
+            </ul>
+        </div>
+        <div class="click_btn F_next"></div>
+    </div>
+    <script type="text/javascript" src="jquery-2.1.4.js"></script>
+    <script type="text/javascript">
+        var length = $("#scroll_box li").length;
+        var liWidth = $("#scroll_box li").outerWidth(true);
+        var boxWidth = $(".box").outerWidth(true);
+        var showLength = Math.ceil(boxWidth / liWidth); //显示图片个数
+        var speed = 500;   //滚动速度
+        var time = 1000;    //滚动间隔
+        var scrollIndex = 1;    //每次滚动的图片数量
+        $("#scroll_box").css("width",length * liWidth);     //设置滚动盒子宽度
+        var index = 0;//当前图片位置
+        function scroll(){
+            // alert(scrollIndex)
+            $("#scroll_box").stop().animate({"margin-left":"-"+scrollIndex*liWidth+"px"},speed,function(){
+                $("#scroll_box").css("margin-left",0);
+                for(var i =0;i < scrollIndex;i++){
+                    //将第一张图片放到最后一张图片后面
+                    $("#scroll_box").find("li").last().after($("#scroll_box").find("li").first());
+                }
+            });
+        }
+        var s = setInterval(scroll,time);
+        $(".F_prev").click(function(){
+            clearInterval(s);
+            $("#scroll_box").animate({"margin-left":"-"+scrollIndex*liWidth+"px"},speed,function(){
+                $("#scroll_box").css("margin-right",0);
+                for(var i =0;i < scrollIndex;i++){
+                    //将第一张图片放到最后一张图片后面
+                    $("#scroll_box").find("li").first().after($("#scroll_box").find("li").last());
+                }
+            });
+        });
+        $(".F_next").click(function(){
+            clearInterval(s);
+            $("#scroll_box").animate({"margin-right":"-"+scrollIndex*liWidth+"px"},speed,function(){
+                $("#scroll_box").css("margin-left",0);
+                for(var i =0;i < scrollIndex;i++){
+                    //将第一张图片放到最后一张图片后面
+                    $("#scroll_box").find("li").last().after($("#scroll_box").find("li").first());
+                }
+            });
+        });
+    </script>
+</body>
+</html>

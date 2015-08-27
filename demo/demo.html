@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset=UTF-8 />
+<title>测试</title>
+<style>
+    #demo1{
+        overflow: hidden;
+        /*height:26px;*/
+        float: left;
+        /*width: 800%;*/
+        height: 800%;
+        position:relative;
+    }
+    #demo{
+        background: #FFF;
+        overflow:hidden;
+        border: 1px dashed #CCC;
+        width: 450px;
+        height:26px;
+    }
+    .huojiang_list{
+        float: left;
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+    }
+
+    .huojiang_list li{ 
+        width:150px;
+        /*height:26px;*/
+        float:left;
+        padding: 0px;
+        margin: 0px;
+        list-style-image: none;
+        list-style-type: none;
+    }
+    .btn {
+        padding: 6px 12px;
+        border: 1px solid #4f8db3;
+        -webkit-border-radius: 2px;
+        -webkit-background-clip: padding-box;
+        -moz-border-radius: 2px;
+        -moz-background-clip: padding;
+        border-radius: 2px;
+        background-clip: padding-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        display: inline-block;
+        text-transform: none;
+        -webkit-transition: all .25s ease;
+        -moz-transition: all .25s ease;
+        -o-transition: all .25s ease;
+        -ms-transition: all .25s ease;
+        transition: all .25s ease;
+        background: none repeat scroll 0 0 #4f8db3;
+        text-shadow: none;
+        box-shadow: none;
+        color: #FFF;
+        white-space: nowrap;
+    }
+    .btn:hover {
+        background: none repeat scroll 0 0 #3b3c41;
+        color: #FFF;
+        text-decoration: none;
+        border: 1px solid #3b3c41;
+    }
+</style>
+<script src="jquery-2.1.4.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <div id="demo1"> 
+            <ul class="huojiang_list">
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var obj = {
+            '1' : '***********',
+            '2' : '185****2361',
+            '3' : '185****2362',
+            '4' : '185****2363',
+            '5' : '185****2364',
+            '6' : '185****2365',
+            '7' : '185****2366',
+            '8' : '185****2367',
+            '9' : '185****2368'
+        }
+        $.fn.newFunc = function(options){
+            $options = $.extend({},options);
+            var content = "";
+            for(var val in $options){
+                content += '<li>'+$options[val]+'</li>';
+            }
+            return $(this).append(content);
+        };
+        $('.huojiang_list').newFunc(obj);
+        var sliderMsg = {
+            index : 0,
+            interval : 2000,
+            cslider : 1,
+            init : function(){
+                this.initEl();
+                if(this.cslider == 0){
+                    this.setIval(this.toLeftmove,this.interval,this);
+                    this.tab.width('800%');
+                    this.tab.height('auto');
+                }else{
+                    this.setIval(this.toTopmove,this.interval,this);
+                    this.tab.width('auto');
+                    this.tab.height('800%');
+                }
+            },
+            initEl : function(){
+                this.tab = $("#demo1");
+                this.ulHeight = this.tab.children("ul").children("li").get(0).offsetHeight; //获取行高
+                this.liWidth = this.tab.children("ul").children("li").width();
+                this.liLen = this.tab.children("ul").children("li").length;
+                this.tab.append(this.tab.children().first().clone(true));
+            },
+            toLeftmove : function(el){
+                var that = el;
+                that.index ++;
+                if(that.index >= that.liLen){
+                    that.index = 0;
+                    that.tab.css("left",0);;
+                    that.index ++;
+                }
+                that.tab.animate({
+                    "left" : (-that.index)*that.liWidth+"px"
+                },300);
+            },
+            toTopmove : function(el){
+                var that = el;
+                that.index ++;
+                // alert(that.liLen)
+                if(that.index >= Math.ceil(that.liLen/3)*2){
+                    that.index = 0;
+                    that.tab.css("top",0);
+                }
+                that.tab.animate({
+                    "top" : (-that.index)*that.ulHeight+"px"
+                },300);
+            },
+            setIval : function(cb,interval,el){
+                setInterval(function(){
+                    cb(el);
+                },interval)
+            }
+        }
+        sliderMsg.init();
+        //构造函数、原型
+        function baseClass(){
+            this.showMsg = function(){
+                alert("baseClass::showMsg");   
+            }
+            var that = this;
+            this.msg = function(s){
+                this.s.a = s;
+                var that = this
+
+                console.log(this)
+                setTimeout(function(){
+                    // alert(that.s.a)
+                },1000);
+            }
+        }
+
+        function extendClass(){
+            this.s = {
+                a : 1
+            };
+            this.showMsg =function (){
+                alert("extendClass::showMsg");
+            }
+        }
+
+        extendClass.prototype = new baseClass();
+        var instance1 = new extendClass();
+        var instance2 = new extendClass();
+
+        instance1.msg(1);//显示extendClass::showMsg
+        instance2.msg(2);
+
+        //闭包
+        function fun1(){
+            var arr = [];
+            for(var i=0; i<3;i++){
+                arr[i] = function(){
+                    return i;
+                }
+            }
+            return arr;
+        }
+        var arr = fun1();
+        console.log(arr[0]());
+        console.log(arr[1]());
+        console.log(arr[2]());
+        //继承
+        function A(x,y){
+            this.x = x;
+            var y = y;
+            this.sayHi = function(){
+                console.log(y)
+            }
+            this.sayHello = function(){}
+        }
+        function B(x,y){
+            this.say = function(){
+                console.log(x)
+            }
+            A.apply(this,[x,y]);
+            console.log(this);
+            this.sayHi();
+            console.log(x)
+        }
+        var obj = new B(3,1);
+        function a (addr){
+
+             // "" && 0 && addr;
+             // "1" && 2 && addr
+             // var s = addr || "" ? alert(1) : alert(2)
+            console.log()
+        }
+        a(1);
+
+        var arr = [];
+        console.log(Object.prototype.toString.call(Map()));
+    </script>
+</body>
+</html>

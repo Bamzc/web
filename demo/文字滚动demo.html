@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset=UTF-8 />
+<title>测试</title>
+<style>
+    ul{
+        margin: 0px;
+        padding: 0px;
+        list-style-type: none;
+        /*overflow: hidden;*/
+        float: left;
+    }
+
+    li{
+        width:150px;
+        height:auto;
+        float:left;
+        padding: 0px;
+        margin: 0px;
+        list-style-image: none;
+        list-style-type: none;
+    }
+    #demo1{
+        overflow: hidden;
+        height:26px;
+        float: left;
+        width: 800%;
+        position:relative;
+    }
+
+    #demo{
+        background: #FFF;
+        overflow:hidden;
+        border: 1px dashed #CCC;
+        width: 800px;
+        height:26px;
+    }
+    .huojiang_list{
+        float: left;
+    }
+</style>
+<script src="jquery-2.1.4.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <div id="demo1"> 
+            <ul class="huojiang_list">
+                
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var obj = {
+            '1' : '***********',
+            '2' : '185****2361',
+            '3' : '185****2362',
+            '4' : '185****2363',
+            '5' : '185****2364',
+            '6' : '185****2365',
+            '7' : '185****2366',
+            '8' : '185****2367',
+            '9' : '185****2368',
+        }
+        $.fn.newFunc = function(options){
+            $options = $.extend({},options);
+            var content = "";
+            for(var val in $options){
+                content += '<li>'+$options[val]+'</li>';
+            }
+            return $(this).append(content);
+        };
+        $('.huojiang_list').newFunc(obj);
+        var tab = $("#demo1");
+        var liWidth = $(".huojiang_list").children("li").width();
+        var liLen = $(".huojiang_list").children("li").length;
+        tab.append(tab.children().first().clone(true));
+        var index = 0;
+        function move(){
+            index ++;
+            if(index >= liLen){
+                index = 0;
+                tab.css("left",0);
+                index ++;
+            }
+            tab.animate({
+                "left" : (-index)*liWidth+"px"
+            });
+        }
+        setInterval(move,2000)
+    </script>
+</body>
+</html>

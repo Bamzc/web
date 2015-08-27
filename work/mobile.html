@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" charset="utf-8">
+<title>ÒÆ¶¯¶Ë´¥Ãþ»¬¶¯</title>
+<meta name="author" content="rainna" />
+<meta name="keywords" content="rainna's js lib" />
+<meta name="description" content="" />
+<meta name="viewport" content="target-densitydpi=320,width=640,user-scalable=no">
+<style>
+*{margin:0;padding:0;}
+li{list-style:none;}
+
+.m-slider{width:600px;margin:50px 20px;overflow:hidden;}
+.m-slider .cnt{position:relative;left:0;width:3000px;}
+.m-slider .cnt li{float:left;width:600px;}
+.m-slider .cnt img{display:block;width:100%;height:450px;}
+.m-slider .cnt p{margin:20px 0;}
+.m-slider .icons{text-align:center;color:#000;}
+.m-slider .icons span{margin:0 5px;}
+.m-slider .icons .curr{color:red;}
+.f-anim{-webkit-transition:left .2s linear;}
+</style>
+</head>
+
+<body>
+<div class="m-slider">
+    <ul class="cnt" id="slider">
+        <li>
+            <img src="http://imglf1.ph.126.net/qKodH3sZoVbPalKFtHS9mw==/6608946691259322175.jpg">
+            <p>1</p>
+        </li>
+        <li>
+            <img src="http://imglf1.ph.126.net/40-jqH_j6EoCWnZOixY2pA==/4798022453110310215.jpg">
+            <p>2</p>
+        </li>
+        <li>
+            <img src="http://imglf0.ph.126.net/Jnmi2y51zVdjKAYlibtpFw==/3068640196117481166.jpg">
+            <p>3</p>
+        </li>
+        <li>
+            <img src="http://imglf1.ph.126.net/79GPsjhwiIj8e-0nP5MsEQ==/6619295294699949331.jpg">
+            <p>4</p>
+        </li>
+        <li>
+            <img src="http://imglf1.ph.126.net/40-jqH_j6EoCWnZOixY2pA==/4798022453110310215.jpg">
+            <p>5</p>
+        </li>
+    </ul>
+    <div class="icons" id="icons">
+        <span class="curr">1</span>
+        <span>2</span>
+        <span>3</span>
+        <span>4</span>
+        <span>5</span>
+    </div>
+</div>
+
+<script>
+var slider = {
+    //ÅÐ¶ÏÉè±¸ÊÇ·ñÖ§³ÖtouchÊÂ¼þ
+    touch:('ontouchstart' in window) || window.DocumentTouch && document instanceof DocumentTouch,
+    slider:document.getElementById('slider'),
+
+    //ÊÂ¼þ
+    events:{
+        index:0,     //ÏÔÊ¾ÔªËØµÄË÷Òý
+        slider:this.slider,     //thisÎªslider¶ÔÏó
+        icons:document.getElementById('icons'),
+        icon:this.icons.getElementsByTagName('span'),
+        handleEvent:function(event){
+            var self = this;     //thisÖ¸events¶ÔÏó
+            if(event.type == 'touchstart'){
+                self.start(event);
+            }else if(event.type == 'touchmove'){
+                self.move(event);
+            }else if(event.type == 'touchend'){
+                self.end(event);
+            }
+        },
+        //»¬¶¯¿ªÊ¼
+        start:function(event){
+            var touch = event.targetTouches[0];     //touchesÊý×é¶ÔÏó»ñµÃÆÁÄ»ÉÏËùÓÐµÄtouch£¬È¡µÚÒ»¸ötouch
+            startPos = {
+              x:touch.pageX,
+              y:touch.pageY,
+              time:+new Date
+            };    //È¡µÚÒ»¸ötouchµÄ×ø±êÖµ
+            isScrolling = 0;   //Õâ¸ö²ÎÊýÅÐ¶ÏÊÇ´¹Ö±¹ö¶¯»¹ÊÇË®Æ½¹ö¶¯
+            this.slider.addEventListener('touchmove',this,false);
+            this.slider.addEventListener('touchend',this,false);
+        },
+        //ÒÆ¶¯
+        move:function(event){
+            //µ±ÆÁÄ»ÓÐ¶à¸ötouch»òÕßÒ³Ãæ±»Ëõ·Å¹ý£¬¾Í²»Ö´ÐÐmove²Ù×÷
+            if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+            var touch = event.targetTouches[0];
+            endPos = {
+                x:touch.pageX - startPos.x,
+                y:touch.pageY - startPos.y
+            };
+            isScrolling = Math.abs(endPos.x) < Math.abs(endPos.y) ? 1:0;    //isScrollingÎª1Ê±£¬±íÊ¾×ÝÏò»¬¶¯£¬0ÎªºáÏò»¬¶¯
+            if(isScrolling === 0){
+                event.preventDefault();      //×èÖ¹´¥ÃþÊÂ¼þµÄÄ¬ÈÏÐÐÎª£¬¼´×èÖ¹¹öÆÁ
+                this.slider.className = 'cnt';
+                this.slider.style.left = -this.index*600 + endPos.x + 'px';
+            }
+        },
+        //»¬¶¯ÊÍ·Å
+        end:function(event){
+            var duration = +new Date - startPos.time;    //»¬¶¯µÄ³ÖÐøÊ±¼ä
+            if(isScrolling === 0){    //µ±ÎªË®Æ½¹ö¶¯Ê±
+                this.icon[this.index].className = '';
+                if(Number(duration) > 10){     
+                    //ÅÐ¶ÏÊÇ×óÒÆ»¹ÊÇÓÒÒÆ£¬µ±Æ«ÒÆÁ¿´óÓÚ10Ê±Ö´ÐÐ
+                    if(endPos.x > 10){
+                        if(this.index !== 0) this.index -= 1;
+                    }else if(endPos.x < -10){
+                        if(this.index !== this.icon.length-1) this.index += 1;
+                    }
+                }
+                this.icon[this.index].className = 'curr';
+                this.slider.className = 'cnt f-anim';
+                this.slider.style.left = -this.index*600 + 'px';
+            }
+            //½â°óÊÂ¼þ
+            this.slider.removeEventListener('touchmove',this,false);
+            this.slider.removeEventListener('touchend',this,false);
+        }
+    },
+    
+    //³õÊ¼»¯
+    init:function(){
+        var self = this;     //thisÖ¸slider¶ÔÏó
+        if(!!self.touch) 
+        self.slider.addEventListener('touchstart',self.events,false);    //addEventListenerµÚ¶þ¸ö²ÎÊý¿ÉÒÔ´«Ò»¸ö¶ÔÏó£¬»áµ÷ÓÃ¸Ã¶ÔÏóµÄhandleEventÊôÐÔ
+    }
+};
+
+slider.init();
+</script>
+</body>
+</html>
